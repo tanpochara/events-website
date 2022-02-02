@@ -1,6 +1,6 @@
 import React , { useState } from 'react';
 import { AppBar , Typography , Button , Container , Toolbar , Box , Menu , MenuItem , makeStyles, IconButton } from '@material-ui/core';
-import FunctionsIcon from '@material-ui/icons/Functions';
+import FunctionsRoundedIcon from '@material-ui/icons/FunctionsRounded';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom'
 
@@ -33,7 +33,7 @@ const useStyle = makeStyles({
 });
 
 function Navbar() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
   
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
@@ -77,7 +77,7 @@ function Navbar() {
                     </MenuItem>
                 </Menu>
             </Box>
-            <FunctionsIcon fontSize='large' className = {classes.logoHeading} />
+            <FunctionsRoundedIcon fontSize='large' className = {classes.logoHeading} />
             <Typography variant='h5' noWrap className={classes.heading}> 10X.Parties</Typography>
             <Box sx = {{display : { xs : 'none', md : 'flex'} , flexGrow : 2 , marginLeft : '30px'}}>
                 <Button key = 'parties' component = {Link} to='/' onClick={()=>(console.log('parties'))}> 
