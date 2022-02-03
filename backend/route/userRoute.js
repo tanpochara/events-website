@@ -16,6 +16,7 @@ router.post('/login', async (req , res) => {
             return res.status(404).json({message : 'user does not exist'})
         }
         const correctPass = await bcrypt.compare(password , user.password)
+
         if (!correctPass) {
             return res.status(404).json({message : 'password incorrect'})
         }
@@ -42,7 +43,7 @@ router.post('/register' , async (req, res) => {
         const userCreate = await userSchema.create({email : email , password : hashedPass , name : `${firstName} ${lastName}` });
 
         const token = jwt.sign({email: email , id : userCreate._id}, secret , {expiresIn : '1h'});
-        res.status(200).json({result : token})
+        res.status(200).json({token : token})
 
     } catch (error) {  
         res.status(500).json({message : 'something went wrong'});
