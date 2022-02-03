@@ -27,11 +27,9 @@ function PartyCardGroup({ currentId ,setCurrentId }) {
       !parties.length ? <CircularProgress /> : (
           <Grid className={classes.mainContainer} container alignItems='center' spacing = {3}>
               {parties.map((party) => 
-                  {console.log(party._id); 
-                
-                  return <Grid key = {party._id} item xs={12} sm={4}>
+                  <Grid key = {party._id} item xs={12} sm={4}>
                     <PartyCard party={party} setCurrentId = {setCurrentId} currentId = {currentId}/>
-                  </Grid> }   
+                  </Grid>   
               )}
           </Grid>
       )

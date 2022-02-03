@@ -7,7 +7,6 @@ import Navbar from './components/Navbar';
 import PartyCardGroup from './components/PartyCardGroup';
 import Form from './components/Form'
 import Login from './components/Login';
-import Register from './components/Register';
 
 
 const App = () => {
@@ -26,7 +25,6 @@ const App = () => {
                     <Route path='/' element = {<PartyCardGroup currentId = {currentId} setCurrentId = {setCurrentId} />} />
                     <Route path='/create' element = {<Form currentId = {currentId} setCurrentId={setCurrentId} />} />
                     <Route path='/login' element = {<Login />} />
-                    <Route path='/register' element = {<Register />} />
                 </Routes>
             </div>
         </BrowserRouter>

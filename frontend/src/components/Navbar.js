@@ -1,8 +1,10 @@
-import React , { useState } from 'react';
+import React , { useEffect, useState } from 'react';
 import { AppBar , Typography , Button , Container , Toolbar , Box , Menu , MenuItem , makeStyles, IconButton } from '@material-ui/core';
 import FunctionsRoundedIcon from '@material-ui/icons/FunctionsRounded';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom'
+import { Link,  useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode'
 
 const useStyle = makeStyles({
     appbar : {
@@ -34,7 +36,34 @@ const useStyle = makeStyles({
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = useState(null);
+    const [user , setUser ] = useState(JSON.parse(localStorage.getItem('profile')));
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const classes = useStyle();
   
+    const logout = () => {
+        dispatch({type: 'LOGOUT'});
+        navigate('/login');
+        setUser(null);
+    }
+
+    useEffect(() => {
+        const userE = JSON.parse(localStorage.getItem('profile'));
+        const token = userE?.token;
+        if(token) {
+            const decodedToken = decode(token);
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                dispatch({type : 'LOGOUT'});
+                navigate('/login');
+                setUser(null);
+            };
+        } else {
+            navigate('/login');
+        }
+
+        setUser(JSON.parse(localStorage.getItem('profile')));
+    }, [dispatch, navigate]);
+    
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -42,16 +71,13 @@ function Navbar() {
     const handleCloseNavMenu = () => {
       setAnchorElNav(null);
     };
-  
-    const classes = useStyle();
+
 
   return <AppBar position = 'static' color = 'transparent' className = {classes.appbar }>
       <Container maxWidth = 'xl'>
           <Toolbar disableGutters>
-            <Box sx = {{display : {
-                xs : 'flex',
-                md : 'none'
-            }}}>
+           {user?.token && ( 
+            <Box sx = {{display : { xs : 'flex', md : 'none' }}}>
                 <IconButton size = 'medium' onClick = {handleOpenNavMenu} color  = 'inherit'>
                     <MenuIcon color = 'inherit'/>
                 </IconButton>
@@ -76,17 +102,21 @@ function Navbar() {
                         <Typography textalign="center">Create Party</Typography>
                     </MenuItem>
                 </Menu>
-            </Box>
+            </Box>)}
             <FunctionsRoundedIcon fontSize='large' className = {classes.logoHeading} />
             <Typography variant='h5' noWrap className={classes.heading}> 10X.Parties</Typography>
-            <Box sx = {{display : { xs : 'none', md : 'flex'} , flexGrow : 2 , marginLeft : '30px'}}>
-                <Button key = 'parties' component = {Link} to='/' onClick={()=>(console.log('parties'))}> 
-                    <Typography variant='subtitle1' className= {classes.white}> Party </Typography>
-                </Button>
-                <Button key = 'create' component = {Link} to='/create' onClick={()=>(console.log('create'))}> 
-                    <Typography variant='subtitle1' className= {classes.white}> Create Party </Typography>
-                </Button>
-            </Box>
+            { user?.token && (
+                <>
+                    <Box sx = {{display : { xs : 'none', md : 'flex'} , flexGrow : 2 , marginLeft : '30px'}}>
+                        <Button key = 'parties' onClick={() => {navigate('/')}}> 
+                            <Typography variant='subtitle1' className= {classes.white}> Party </Typography>
+                        </Button>
+                        <Button key = 'create' onClick={() => {navigate('/create')}}> 
+                            <Typography variant='subtitle1' className= {classes.white}> Create Party </Typography>
+                        </Button>
+                    </Box>
+                    <Button onClick={logout} variant='outlined' className = {classes.white}> log out </Button>
+            </>)}
           </Toolbar>
       </Container>
   </AppBar>

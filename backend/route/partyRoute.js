@@ -1,13 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose'
-import Schema from '../models/schema.js'
+import partySchema from '../models/partyschema.js'
 
 const router = express.Router();
 
 //get parties
 router.get('/', async (req,res) => {
     try {
-        const parties = await Schema.find();
+        const parties = await partySchema.find();
 
         res.status(200).json(parties);
     } catch (err) {
@@ -19,11 +19,11 @@ router.get('/', async (req,res) => {
 router.post('/', async (req,res) => {
     const { creater, location, title , tags , des , max } = req.body;
 
-    const newParty = new Schema({ creater, location, title , tags , des , max });
+    const newParty = new partySchema({ creater, location, title , tags , des , max });
     const id = newParty
     try {
         await newParty.save()
-        const ret = await Schema.findById(id);
+        const ret = await partySchema.findById(id);
         res.json(ret);
 
     } catch (err) {
@@ -38,8 +38,8 @@ router.patch('/join/:id', async (req,res) => {
     if (!mongoose.Types.ObjectId.isValid(_id)){
         return res.status(404).send('no party with the given id');
     };
-    const prevParty = await Schema.findById(_id);
-    const updatedParty = await Schema.findByIdAndUpdate(_id , {countParti : prevParty.countParti+1} , { new : true});
+    const prevParty = await partySchema.findById(_id);
+    const updatedParty = await partySchema.findByIdAndUpdate(_id , {countParti : prevParty.countParti+1} , { new : true});
 
     res.json(updatedParty);
 });
@@ -50,7 +50,7 @@ router.delete('/:id', async (req,res) => {
     if (!mongoose.Types.ObjectId.isValid(_id)){
         return res.status(404).send('no party with the given id')
     };
-    await Schema.findByIdAndRemove(_id);
+    await partySchema.findByIdAndRemove(_id);
     return res.json({message : 'post deleted'});
 })
 

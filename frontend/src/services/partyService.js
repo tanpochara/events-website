@@ -1,13 +1,17 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/';
+const url = 'http://localhost:5000';
 
-export const getParties = () => axios.get(url);
+const api = axios.create({baseURL : url});
 
-export const createParty = (newParty) => { axios.post(url, newParty) };
+export const getParties = () => api.get('/party');
 
+export const createParty = (newParty) =>  { api.post('/party', newParty) };
 
-export const deleteParty = (id) => axios.delete(`${url}${id}`);
+export const deleteParty = (id) => api.delete(`/party/${id}`);
 
+export const joinParty = (id) => api.patch(`/party/join/${id}`);
 
-export const joinParty = (id) => axios.patch(`${url}join/${id}`);
+export const login = (userData) => api.post('/user/login', userData);
+
+export const signup = (userData) => api.post('/user/register', userData);

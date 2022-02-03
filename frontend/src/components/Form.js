@@ -3,6 +3,7 @@ import  { TextField , Button , Typography , Paper , Container} from '@material-u
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import { createParty } from '../actions/parties.js';
+import { useNavigate } from 'react-router-dom';
 
 
 const useStyle =  makeStyles((theme) => ({
@@ -28,6 +29,7 @@ const useStyle =  makeStyles((theme) => ({
 
 function Form({ currentId, setCurrentId}) {
   const classes = useStyle();
+  const navigate = useNavigate();
   const [partyData, setPartydata] = useState({
     creator: '',
     title: '',
@@ -39,12 +41,16 @@ function Form({ currentId, setCurrentId}) {
   })
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(partyData);
+  const handleSubmit = () => {
     dispatch(createParty(partyData));
     clear();
+    navigate('/')
   };
+
+  const handleChange = (e) => {
+    setPartydata({...partyData,
+      [e.target.name] : e.target.value});
+  }
 
   const clear = () => {
     setCurrentId('');
@@ -63,13 +69,13 @@ function Form({ currentId, setCurrentId}) {
             <Paper className = {classes.paper} >
               <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'> create party</Typography>
-                <TextField name='creater' variant = 'outlined' label = 'creater' fullWidth value = {partyData.creator} onChange = {(e) => setPartydata({ ...partyData ,creator: e.target.value})}/>
-                <TextField name='title' variant = 'outlined' label = 'name of a event' fullWidth value = {partyData.title} onChange = {(e) => setPartydata({ ...partyData ,title: e.target.value})}/>
-                <TextField name='describtion' variant = 'outlined' label = 'description of a event' fullWidth value = {partyData.des} onChange = {(e) => setPartydata({ ...partyData ,des: e.target.value})}/>
-                <TextField name='location' variant = 'outlined' label = 'location' fullWidth value = {partyData.location} onChange = {(e) => setPartydata({ ...partyData ,location: e.target.value})}/>
-                <TextField name='tags' variant = 'outlined' label = 'meeting tags' fullWidth value = {partyData.tags} onChange = {(e) => setPartydata({ ...partyData ,tags: e.target.value})}/>
-                <TextField name='date' variant = 'outlined' label = 'event date' fullWidth value = {partyData.date} onChange = {(e) => setPartydata({ ...partyData ,date: e.target.value})}/>
-                <TextField name='max' variant = 'outlined' label = 'max number of guest' fullWidth value = {partyData.max} onChange = {(e) => setPartydata({ ...partyData ,max: e.target.value})}/>
+                <TextField name='creator' variant = 'outlined' label = 'creater' fullWidth value = {partyData.creator} onChange = {handleChange}/>
+                <TextField name='title' variant = 'outlined' label = 'name of a event' fullWidth value = {partyData.title} onChange = {handleChange}/>
+                <TextField name='des' variant = 'outlined' label = 'description of a event' fullWidth value = {partyData.des} onChange = {handleChange}/>
+                <TextField name='location' variant = 'outlined' label = 'location' fullWidth value = {partyData.location} onChange = {handleChange}/>
+                <TextField name='tags' variant = 'outlined' label = 'meeting tags' fullWidth value = {partyData.tags} onChange = {handleChange}/>
+                <TextField name='date' variant = 'outlined' label = 'event date' fullWidth value = {partyData.date} onChange = {handleChange}/>
+                <TextField name='max' variant = 'outlined' label = 'max number of guest' fullWidth value = {partyData.max} onChange = {handleChange}/>
                 <Button className = {classes.buttonSubmit} variant='contained' color='primary' size='large' fullWidth type='submit'> submit</Button>
                 <Button className = {classes.buttonSubmit} variant='contained' color='secondary' size='large' fullWidth onClick={clear}> clear</Button>
               </form>
