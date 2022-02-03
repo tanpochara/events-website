@@ -45,6 +45,7 @@ function Login() {
     const navigate = useNavigate();
 
     const handleAuth = (e) => {
+      e.preventDefault();
       if (haveAccount){
         dispatch(login(userData,navigate));
       } else {
