@@ -3,25 +3,21 @@ import mongoose from 'mongoose';
 const partySchema = mongoose.Schema({
     creater: String,
     title: String,
-    des: {
-        type: String,
-        default: ''
-    },
     location : {
         type: String,
         default: ''
     },
     date : {
-        type: Date,
-        default : Date.now()
+        type: String,
+        default : '27/2/22',
     },
     tag : {
         type : String,
         default: 'party'
     },
     countParti: {
-        type: Number,
-        default : 1
+        type: [String],
+        default : []
     },
     max: {
         type: Number,

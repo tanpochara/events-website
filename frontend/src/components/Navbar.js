@@ -86,10 +86,6 @@ function Navbar() {
                 anchorEl={anchorElNav} 
                 className = {classes.menu} 
                 onClose = {handleCloseNavMenu}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                  }}
                 keepMounted
                 transformOrigin={{
                     vertical: 'top',

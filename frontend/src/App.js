@@ -12,9 +12,10 @@ import Login from './components/Login';
 const App = () => {
     const dispatch = useDispatch()
     const [currentId, setCurrentId] = useState('');
+    const user = JSON.parse(localStorage.getItem('profile'))
 
     useEffect(() => {
-        dispatch(getParties())
+        dispatch(getParties());
     }, [dispatch, currentId]);
 
     return (
@@ -22,7 +23,7 @@ const App = () => {
             <div>
                 <Navbar />
                 <Routes>
-                    <Route path='/' element = {<PartyCardGroup currentId = {currentId} setCurrentId = {setCurrentId} />} />
+                    <Route path='/' element = {<PartyCardGroup currentId = {currentId} setCurrentId = {setCurrentId} user = {user} />} />
                     <Route path='/create' element = {<Form currentId = {currentId} setCurrentId={setCurrentId} />} />
                     <Route path='/login' element = {<Login />} />
                 </Routes>

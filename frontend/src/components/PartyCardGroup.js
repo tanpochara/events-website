@@ -19,7 +19,7 @@ const useStyle = makeStyles((theme) => ({
       textAlign: 'center',
     },
   }));
-function PartyCardGroup({ currentId ,setCurrentId }) {
+function PartyCardGroup({ currentId ,setCurrentId , user }) {
     const parties = useSelector((state) => state.parties);
     const classes = useStyle();
 
@@ -28,9 +28,10 @@ function PartyCardGroup({ currentId ,setCurrentId }) {
           <Grid className={classes.mainContainer} container alignItems='center' spacing = {3}>
               {parties.map((party) => 
                   <Grid key = {party._id} item xs={12} sm={4}>
-                    <PartyCard party={party} setCurrentId = {setCurrentId} currentId = {currentId}/>
+                    <PartyCard party={party} setCurrentId = {setCurrentId} currentId = {currentId} user = {user}/>
                   </Grid>   
-              )}
+              )
+              }
           </Grid>
       )
   );

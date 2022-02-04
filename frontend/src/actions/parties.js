@@ -5,7 +5,7 @@ export const getParties = () => async (dispatch) =>{
         const { data } = await api.getParties();
 
         dispatch ({type : 'FETCH_ALL', payload: data});
-        console.log(data);
+
     } catch (err) {
         console.log(err);
     }
@@ -15,8 +15,7 @@ export const getParties = () => async (dispatch) =>{
 export const createParty = (party) => async (dispatch) => {
     try {
         
-        const { data } = api.createParty(party);
-        console.log(data);
+        const { data } = await api.createParty(party);
 
         dispatch({type : 'CREATE' , payload : data})
     } catch (err) {
