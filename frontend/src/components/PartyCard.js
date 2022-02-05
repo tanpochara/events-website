@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card , CardContent , CardMedia , Typography , Button , CardActions , makeStyles} from '@material-ui/core';
+import { Card , CardContent , CardMedia ,Box, Typography , Button ,IconButton, CardActions , makeStyles} from '@material-ui/core';
 import LocationOnRoundedIcon from '@material-ui/icons/LocationOnRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import ScheduleRoundedIcon from '@material-ui/icons/ScheduleRounded';
 import img from '../Assets/party.jpeg';
 import { useDispatch } from 'react-redux';
@@ -20,19 +21,29 @@ const useStyle = makeStyles((theme) => ({
   icon : {
     paddingRight : theme.spacing(1.5),
     paddingTop : theme.spacing(0),
+  },
+  box : {
+    display : 'flex',
+    flexGrow : 2,
+    alignItems : 'center'
+  },
+  textAction : {
+    paddingLeft : '10px'
   }
 }));
 
 function PartyCard({ party , setCurrentId , user }) {
     const classes = useStyle();
     const dispatch = useDispatch();
-    let didJoin;
     const userToken = user?.token;
-    if (userToken) {
-      const decodedToken = decode(String(userToken));
-      const userId = decodedToken.id;
-      didJoin = party.countParti.indexOf(String(userId)) !== -1;
+    let didJoin;
+    let userId;
+    if(userToken){
+      const decodedToken = decode(userToken);
+      userId = decodedToken.id;
+      didJoin = party.countParti.indexOf(userId) !== -1;
     }
+
 
     const join = (e) => {
       e.preventDefault();
@@ -43,7 +54,6 @@ function PartyCard({ party , setCurrentId , user }) {
       setCurrentId(party._id);
     };
   
-
   return (<Card>
     <CardMedia
       component="img"
@@ -69,11 +79,19 @@ function PartyCard({ party , setCurrentId , user }) {
     </CardContent>
   
   <CardActions>
+  <Box className={classes.box}>
     <Button size="small" color="primary" variant = 'outlined' onClick = {join}>
       {didJoin ? 'undo join' : 'join'}
     </Button>
     &nbsp;
-    <Typography vaiant = "body2" color = "textPrimary"> {`${party.countParti.length} out of ${party.max}`} </Typography>
+    <Typography vaiant = "body2" color = "textPrimary" className={classes.textAction}> {`${party.countParti.length} out of ${party.max}`} </Typography>
+    </Box>
+    {(party.creater === userId) && 
+    <Box>
+      <IconButton onClick = {() => {dispatch(deleteParty(party._id))}} >
+        <DeleteRoundedIcon />
+      </IconButton>
+    </Box>}
   </CardActions>
 </Card>);
 }

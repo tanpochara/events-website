@@ -12,11 +12,11 @@ import Login from './components/Login';
 const App = () => {
     const dispatch = useDispatch()
     const [currentId, setCurrentId] = useState('');
-    const user = JSON.parse(localStorage.getItem('profile'))
+    const user = JSON.parse(localStorage.getItem('profile'));
 
     useEffect(() => {
         dispatch(getParties());
-    }, [dispatch, currentId]);
+    }, [dispatch, currentId , user]);
 
     return (
         <BrowserRouter>
