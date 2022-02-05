@@ -66,7 +66,7 @@ function Login() {
         }
       }
       navigate('/');
-    }
+    };
 
     const handleChange = (e) => {
       setUserData({
@@ -77,7 +77,7 @@ function Login() {
 
     const handleTerms = (e) => {
       setAgreeTerms(e.target.checked);
-    }
+    };
 
     const switchPage = () => {
       setHaveAccount((prev) => !prev);
@@ -87,10 +87,9 @@ function Login() {
         email : '',
         password : '',
       });
-    }
+    };
 
   return <>
-
           <Container maxWidth = 'xs'>    
             <Paper className = {classes.paper}>
                 <Avatar>

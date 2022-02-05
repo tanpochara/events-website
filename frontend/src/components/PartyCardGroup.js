@@ -29,9 +29,7 @@ function PartyCardGroup({ currentId ,setCurrentId , user }) {
               {parties.map((party) => 
                   <Grid key = {party._id} item xs={12} sm={4}>
                     <PartyCard party={party} setCurrentId = {setCurrentId} currentId = {currentId} user = {user}/>
-                  </Grid>   
-              )
-              }
+                  </Grid>)}
           </Grid>
       )
   );

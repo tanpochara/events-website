@@ -55,45 +55,45 @@ function PartyCard({ party , setCurrentId , user }) {
     };
   
   return (<Card>
-    <CardMedia
-      component="img"
-      height="140"
-      image={img}
-      alt={party.title}
-    />
-    <CardContent >
-      <Typography gutterBottom variant="h5" component="div">
-        {party.title}
-      </Typography>
+            <CardMedia
+              component="img"
+              height="140"
+              image={img}
+              alt={party.title}
+            />
+            <CardContent >
+              <Typography gutterBottom variant="h5" component="div">
+                {party.title}
+              </Typography>
 
-      <div className={classes.div}>
-        <ScheduleRoundedIcon fontSize = 'small' className={classes.icon}/> 
-        <Typography variant="subtitle1" color="inherit"> {party.date} </Typography>
-      </div>
-      
-      <div className={classes.div}>
-        <LocationOnRoundedIcon fontSize = 'small' className={classes.icon} /> 
-        <Typography variant="subtitle1" color="inherit"> {party.location} </Typography>
-      </div>
+              <div className={classes.div}>
+                <ScheduleRoundedIcon fontSize = 'small' className={classes.icon}/> 
+                <Typography variant="subtitle1" color="inherit"> {party.date} </Typography>
+              </div>
+              
+              <div className={classes.div}>
+                <LocationOnRoundedIcon fontSize = 'small' className={classes.icon} /> 
+                <Typography variant="subtitle1" color="inherit"> {party.location} </Typography>
+              </div>
 
-    </CardContent>
-  
-  <CardActions>
-  <Box className={classes.box}>
-    <Button size="small" color="primary" variant = 'outlined' onClick = {join}>
-      {didJoin ? 'undo join' : 'join'}
-    </Button>
-    &nbsp;
-    <Typography vaiant = "body2" color = "textPrimary" className={classes.textAction}> {`${party.countParti.length} out of ${party.max}`} </Typography>
-    </Box>
-    {(party.creater === userId) && 
-    <Box>
-      <IconButton onClick = {() => {dispatch(deleteParty(party._id))}} >
-        <DeleteRoundedIcon />
-      </IconButton>
-    </Box>}
-  </CardActions>
-</Card>);
+            </CardContent>
+          
+            <CardActions>
+              <Box className={classes.box}>
+                <Button size="small" color="primary" variant = 'outlined' onClick = {join}>
+                  {didJoin ? 'undo join' : 'join'}
+                </Button>
+                &nbsp;
+                <Typography vaiant = "body2" color = "textPrimary" className={classes.textAction}> {`${party.countParti.length} out of ${party.max}`} </Typography>
+                </Box>
+                {(party.creater === userId) && 
+                <Box>
+                  <IconButton onClick = {() => {dispatch(deleteParty(party._id))}} >
+                    <DeleteRoundedIcon />
+                  </IconButton>
+              </Box>}
+            </CardActions>
+        </Card>);
 }
 
 export default PartyCard;
