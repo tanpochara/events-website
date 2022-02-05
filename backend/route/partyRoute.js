@@ -2,7 +2,6 @@ import express from 'express';
 import mongoose from 'mongoose'
 import partySchema from '../models/partyschema.js'
 import auth from '../middleware/auth.js';
-import party from '../models/partyschema.js';
 
 const router = express.Router();
 

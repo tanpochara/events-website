@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-import { Container , Typography , TextField , Button , Grid , Paper , Avatar , makeStyles} from '@material-ui/core';
+import { Container , Typography , TextField , Button , Checkbox , Grid , Paper , FormControlLabel , Avatar , makeStyles} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -39,16 +39,31 @@ function Login() {
         email : '',
         password : '',
     });
-    const [haveAccount , setHaveAccount ] = useState(true)
+    const [haveAccount , setHaveAccount ] = useState(true);
+    const [agreeTerms , setAgreeTerms] = useState(false);
     const classes = useStyle();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    
     const handleAuth = (e) => {
+      e.preventDefault();
       if (haveAccount){
         dispatch(login(userData,navigate));
       } else {
-        dispatch(signup(userData,navigate))
+        if (!agreeTerms){
+          alert('please agree our terms and condition');
+        } else{
+          const regx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+          console.log(regx.test(userData.password));
+          if (!regx.test(userData.password)) {
+            alert("you have not followed the password restriction")
+          } else if (!userData.email.includes('@')) {
+            alert("invalid email address");
+          }
+          else {
+            dispatch(signup(userData,navigate))
+          }
+        }
       }
       navigate('/');
     }
@@ -60,6 +75,10 @@ function Login() {
       })
     };
 
+    const handleTerms = (e) => {
+      setAgreeTerms(e.target.checked);
+    }
+
     const switchPage = () => {
       setHaveAccount((prev) => !prev);
       setUserData({
@@ -70,7 +89,9 @@ function Login() {
       });
     }
 
-  return <Container maxWidth = 'xs'>    
+  return <>
+
+          <Container maxWidth = 'xs'>    
             <Paper className = {classes.paper}>
                 <Avatar>
                     <LockOutlinedIcon />
@@ -107,7 +128,8 @@ function Login() {
                             onChange = {handleChange} /> 
                         </Grid>
                         <Grid item xs = {12}>
-                            <TextField name = 'password' 
+                        <TextField name = 'password' 
+                            helperText = {haveAccount ? null : 'minimun of 8 character, contain Upper, Lower case and a number'}
                             fullWidth
                             variant = 'outlined' 
                             label = 'password' 
@@ -115,6 +137,13 @@ function Login() {
                             type = 'password' 
                             onChange = {handleChange} />
                         </Grid>
+                        {!haveAccount && (<Grid container justifyContent='flex-end'>
+                          <FormControlLabel
+                          value="agree"
+                          control={<Checkbox checked = {agreeTerms} onChange={handleTerms} />}
+                          label = 'I agree terms and codition of the website' 
+                          labelPlacement="end" />
+                        </Grid>)}
                         <Button 
                         className={classes.buttonSubmit}
                         variant='contained' 
@@ -131,6 +160,7 @@ function Login() {
                 </form>
             </Paper>
          </Container>;
+        </>
 }
 
 export default Login;

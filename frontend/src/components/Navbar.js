@@ -1,5 +1,5 @@
-import React , { useEffect, useState } from 'react';
-import { AppBar , Typography , Button , Container , Toolbar , Box , Menu , MenuItem , makeStyles, IconButton } from '@material-ui/core';
+import React , { useEffect, useState , useRef } from 'react';
+import { AppBar , Typography , Button , Container , Toolbar , Box , Avatar ,  Menu , MenuItem , makeStyles, IconButton } from '@material-ui/core';
 import FunctionsRoundedIcon from '@material-ui/icons/FunctionsRounded';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link,  useNavigate } from 'react-router-dom'
@@ -40,6 +40,7 @@ function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const classes = useStyle();
+    let email = useRef('')
   
     const logout = () => {
         dispatch({type: 'LOGOUT'});
@@ -51,7 +52,8 @@ function Navbar() {
         const userE = JSON.parse(localStorage.getItem('profile'));
         const token = userE?.token;
         if(token) {
-            const decodedToken = decode(token);
+            const decodedToken = decode(token)
+            email.current = decodedToken.email;
             if (decodedToken.exp * 1000 < new Date().getTime()) {
                 dispatch({type : 'LOGOUT'});
                 navigate('/login');
@@ -64,8 +66,8 @@ function Navbar() {
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [dispatch, navigate]);
     
-    const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
+    const handleOpenNavMenu = (e) => {
+      setAnchorElNav(e.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
@@ -90,12 +92,15 @@ function Navbar() {
                 transformOrigin={{
                     vertical: 'top',
                     horizontal: 'left',
-                  }}>
+                }}>
                     <MenuItem key = 'parties' component = {Link} to ='/' onClick = {handleCloseNavMenu}>
                         <Typography textalign="center">Parties</Typography>
                     </MenuItem>
                     <MenuItem key = 'create' component = {Link} to = '/create' onClick = {handleCloseNavMenu}>
                         <Typography textalign="center">Create Party</Typography>
+                    </MenuItem>
+                    <MenuItem key = 'logout' onClick = {logout}>
+                        <Typography textalign="center">logout</Typography>
                     </MenuItem>
                 </Menu>
             </Box>)}
@@ -111,7 +116,10 @@ function Navbar() {
                             <Typography variant='subtitle1' className= {classes.white}> Create Party </Typography>
                         </Button>
                     </Box>
-                    <Button onClick={logout} variant='outlined' className = {classes.white}> log out </Button>
+                    <Box sx = {{display : {xs : 'none' , md :'flex'}}}>
+                        <Avatar> {email.current.charAt(0).toUpperCase()} </Avatar>
+                        <Button onClick={logout} variant='outlined' className = {classes.white}> log out </Button>
+                    </Box>    
             </>)}
           </Toolbar>
       </Container>

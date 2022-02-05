@@ -82,10 +82,10 @@ function Form({ currentId, setCurrentId}) {
             <Paper className = {classes.paper} >
               <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'> create party</Typography>
-                <TextField name='title' variant = 'outlined' label = 'name of a event' fullWidth value = {partyData.title} onChange = {handleChange}/>
-                <TextField name='location' variant = 'outlined' label = 'location' fullWidth value = {partyData.location} onChange = {handleChange}/>
-                <TextField name='date' type = 'date' variant = 'outlined' label = 'event date' fullWidth value = {partyData.date} onChange = {handleChange}/>
-                <TextField name='max' variant = 'outlined' label = 'max number of guest' fullWidth value = {partyData.max} onChange = {handleChange}/>
+                <TextField name='title' required variant = 'outlined' label = 'name of a event' fullWidth value = {partyData.title} onChange = {handleChange}/>
+                <TextField name='location' required variant = 'outlined' label = 'location' fullWidth value = {partyData.location} onChange = {handleChange}/>
+                <TextField name='date' type = 'date' required variant = 'outlined' label = 'event date' fullWidth value = {partyData.date} onChange = {handleChange}/>
+                <TextField name='max' required variant = 'outlined' label = 'max number of guest' fullWidth value = {partyData.max} onChange = {handleChange}/>
                 <FormControl className={classes.formControl} fullWidth>
                   <InputLabel id="selectTag" className = {classes.inputText}>tag</InputLabel>
                     <Select

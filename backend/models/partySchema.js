@@ -9,7 +9,7 @@ const partySchema = mongoose.Schema({
     },
     date : {
         type: String,
-        default : '27/2/22',
+        default : '2022-6-27',
     },
     tag : {
         type : String,
